@@ -16,6 +16,7 @@ class VinlyController extends AbstractController
             ['song'=>'gangstar paradice','artist'=>'crazy'],
             ['song'=>'waterfall','artist'=>'abc']
         ];
+        // dd($tracks);
         return $this->render('vinly/homepage.html.twig',[
             'title'=>'songs',
             'tracks'=>$tracks
@@ -24,12 +25,10 @@ class VinlyController extends AbstractController
 
     #[Route('/browse/{slug}')]
     public function browse(string $slug) {
-        if ($slug) {
-            $title = u(str_replace('-',' ',$slug))->title(true);
-        } else {
-            $title = "no name";
-        }
-        return new Response($title);
+        $genre = $slug ? u(str_replace('-',' ',$slug))->title(true): null;
+        return $this->render('vinly/browse.html.twig',[
+            'genre'=>$genre,
+        ]);
         
     }
 }
