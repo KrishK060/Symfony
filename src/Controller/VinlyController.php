@@ -9,7 +9,7 @@ use function Symfony\Component\String\u;
 
 class VinlyController extends AbstractController
 {
-    #[Route('/')]
+    #[Route('/',name:'app_homepage')]
     public function homepage(){
         // return new Response('hello symfony');
         $tracks = [
@@ -23,8 +23,8 @@ class VinlyController extends AbstractController
         ]);
     }
 
-    #[Route('/browse/{slug}')]
-    public function browse(string $slug) {
+    #[Route('/browse/{slug}',name:'app_browse')]
+    public function browse(string $slug=null) {
         $genre = $slug ? u(str_replace('-',' ',$slug))->title(true): null;
         return $this->render('vinly/browse.html.twig',[
             'genre'=>$genre,
