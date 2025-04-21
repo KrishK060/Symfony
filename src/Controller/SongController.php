@@ -9,13 +9,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class SongController extends AbstractController
 {
 
-    #[Route('/api/songs/{id<\d+>}',methods:['GET'])]
+    #[Route('/api/songs/{id<\d+>}',methods:['GET'],name:'api_song_get_one')]
     public function getSong(int $id,LoggerInterface $logger)
     {
         $song = [
             'id' => $id,
             'name' => 'Waterfall',
-            'url' => 'vinly/homepage.html.twig',
+            'url' => 'https://symfonycasts.s3.amazonaws.com/sample.mp3',
         ];
         $logger->info('returning the song api response{song}',[
             'song'=>$id,
