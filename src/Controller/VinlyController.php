@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\service\MixRepositery;
 use Psr\Cache\CacheItemInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,13 +29,12 @@ class VinlyController extends AbstractController
     }
 
     #[Route('/browse/{slug}',name:'app_browse')]
-    public function browse(HttpClientInterface $httpClient,CacheInterface $cache,string $slug=null) {
+    public function browse(MixRepositery $mixRepositery,string $slug=null) {
+
+        // dd($this->getParameter('kernel.project_dir'));
+
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
-        $mixes = $cache->get('mixes_data',function(CacheItemInterface $cacheItem) use($httpClient){
-            $cacheItem->expiresAfter(5);
-            $response = $httpClient->request('GET','https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
-            return $response->toArray();
-        });
+        $mixes = $mixRepositery->findAll();
         
         
      
