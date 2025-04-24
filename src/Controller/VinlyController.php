@@ -14,6 +14,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class VinlyController extends AbstractController
 {
+    public function __construct(
+       private MixRepositery $mixRepositery
+    ){}
     #[Route('/',name:'app_homepage')]
     public function homepage(){
         // return new Response('hello symfony');
@@ -29,12 +32,12 @@ class VinlyController extends AbstractController
     }
 
     #[Route('/browse/{slug}',name:'app_browse')]
-    public function browse(MixRepositery $mixRepositery,string $slug=null) {
+    public function browse(string $slug=null) {
 
         // dd($this->getParameter('kernel.project_dir'));
 
         $genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
-        $mixes = $mixRepositery->findAll();
+        $mixes = $this->mixRepositery->findAll();
         
         
      
